@@ -56,6 +56,7 @@ class GUIApp:
         else:
             print(f"目录 '{ny}' 已存在。")
         sc_nfo_jpg(ny)
+        print(f"已完成图片下载和NFO生成")
 
     def start_download(self):
         threading.Thread(target=self.download, daemon=True).start()
@@ -75,6 +76,7 @@ class GUIApp:
                 LF_NAME_CN = row[1]
                 print(LF_ID, LF_NAME_CN)
                 download_html(LF_ID, ny)
+        print(f"已完成里番下载")
 
 if __name__ == "__main__":
     root = tk.Tk()
