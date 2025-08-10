@@ -142,7 +142,32 @@ def extract_before_first_space(text):
   else:
     return text
 
+def safe_filename_for_windows(name):
+    char_map = {
+        '!': '！',  # 全角感叹号 (FF01)
+        '?': '？',  # 全角问号 (FF1F)
+        '<': '＜',  # 全角小于号 (FF1C)
+        '>': '＞',  # 全角大于号 (FF1E)
+        ':': '：',  # 全角冒号 (FF1A)
+        '"': '＂',  # 全角双引号 (FF02)
+        '|': '｜',  # 全角竖线 (FF5C)
+        '\\': '＼', # 全角反斜线 (FF3C)
+        '/': '／',  # 全角斜线 (FF0F)
+        '*': '＊',  # 全角星号 (FF0A)
+        # ' ': '_',
+    }
 
+    for half, full in char_map.items():
+        name = name.replace(half, full)
+
+    safe_name = ''
+    for char in name:
+        if 0 <= ord(char) <= 31:
+            safe_name += '_'
+        else:
+            safe_name += char
+
+    return safe_name
 
 def sc_nfo_jpg(NY):
     gltj=[' 後編',' 前編',' ＃',' 第']
@@ -175,8 +200,8 @@ def sc_nfo_jpg(NY):
             
             hanime_tags = '\n    '.join(f'<tag>{x}</tag>' for x in tags)
             #print(hanime_tags)
-    
-            download_single_image(LF_IMG, LF_NAME_CN + "-poster.png", save_path=f"./{str(NY)}")
+            img_filename = f"{safe_filename_for_windows(LF_NAME_CN)}"
+            download_single_image(LF_IMG, img_filename + "-poster.png", save_path=f"./{str(NY)}")
 
             HJ_NAME_JP=extract_before_brackets(LF_NAME_JP)
             if 'OVA ' in HJ_NAME_JP:
@@ -226,8 +251,9 @@ def sc_nfo_jpg(NY):
     </movie>
     '''
             #print(show_nfo)
+            nfo_filename = f"{safe_filename_for_windows(LF_NAME_CN)}"
 
-            with open(f'./{str(NY)}/'+LF_NAME_CN+'.nfo' , 'w',encoding="utf-8") as file:
+            with open(f'./{str(NY)}/'+nfo_filename+'.nfo' , 'w',encoding="utf-8") as file:
                                 file.write(show_nfo)
 
 

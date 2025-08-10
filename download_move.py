@@ -47,6 +47,33 @@ def download_file(lf_id,NY,url, filename=None):
     except KeyboardInterrupt:
         print("\n下载已取消")
 
+def safe_filename_for_windows(name):
+    char_map = {
+        '!': '！',  # 全角感叹号 (FF01)
+        '?': '？',  # 全角问号 (FF1F)
+        '<': '＜',  # 全角小于号 (FF1C)
+        '>': '＞',  # 全角大于号 (FF1E)
+        ':': '：',  # 全角冒号 (FF1A)
+        '"': '＂',  # 全角双引号 (FF02)
+        '|': '｜',  # 全角竖线 (FF5C)
+        '\\': '＼', # 全角反斜线 (FF3C)
+        '/': '／',  # 全角斜线 (FF0F)
+        '*': '＊',  # 全角星号 (FF0A)
+        # ' ': '_',
+    }
+
+    for half, full in char_map.items():
+        name = name.replace(half, full)
+
+    safe_name = ''
+    for char in name:
+        if 0 <= ord(char) <= 31:
+            safe_name += '_'
+        else:
+            safe_name += char
+
+    return safe_name
+
 def download_move_info(page):
 
     tree = html.fromstring(page)
@@ -119,7 +146,8 @@ def download_html(LF_id,NY):
                 else:
                     num_1=int(user_input)-1
                     print('正在下载：',download_info[1][num_1])
-                    download_file(LF_id,NY,download_info[1][num_1],f'./{NY}/{download_info[0][0]}.mp4')  #下载文件
+                    download_name=f"{safe_filename_for_windows(download_info[0][0])}"
+                    download_file(LF_id,NY,download_info[1][num_1],f'./{NY}/{download_name}.mp4')  #下载文件
 
 
     except Exception as e:
