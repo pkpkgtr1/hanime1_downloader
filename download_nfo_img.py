@@ -195,9 +195,8 @@ def sc_nfo_jpg(NY):
             #里番标签
             LF_TAG = row[7]
             tags=LF_TAG.split(',')
-            #print(tags)
-            
-            
+            #print(tags)          
+            hanime_genre = '\n    '.join(f'<genre>{x}</genre>' for x in tags)
             hanime_tags = '\n    '.join(f'<tag>{x}</tag>' for x in tags)
             #print(hanime_tags)
             img_filename = f"{safe_filename_for_windows(LF_NAME_CN)}"
@@ -237,6 +236,7 @@ def sc_nfo_jpg(NY):
     <releasedate>{LF_FSRQ.replace('年','-').replace('月','-').replace('日','').replace(' ','')}</releasedate>
     {hanime_tags}
     <studio>{LF_ZZGS}</studio>
+    {hanime_genre}
     <set>
     <name>{GL_LF_NAME_JP}</name>
     </set>
