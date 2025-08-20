@@ -243,7 +243,7 @@ def sc_nfo_jpg(NY):
     <art>
     <poster>{LF_NAME_JP}-poster.png</poster>
     </art>
-    <maker>制作商</maker>
+    <maker>{LF_ZZGS}</maker>
     <label>{LF_ID}</label>
     <num>{LF_ID}</num>
     <release>{LF_FSRQ.replace('年','-').replace('月','-').replace('日','').replace(' ','')}</release>

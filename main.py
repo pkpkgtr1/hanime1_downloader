@@ -11,18 +11,22 @@ class GUIApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Hanime1里番下载器")
-        self.root.geometry("800x500")
+        self.root.geometry("730x485")
+        # 锁定窗口大小（宽、高都不能改变）
+        self.root.resizable(False, False)
 
         # 创建输入组件
+        root.columnconfigure((0,1,2,3), weight=1) 
         self.ny_var = tk.StringVar(value="202504")
-        ttk.Label(root, text="输入年月（如202504）:").grid(row=0, column=0, padx=10, pady=5)
+        ttk.Label(root, text="输入年月（如202504）:").grid(row=0, column=0, padx=5, pady=5)
         ttk.Entry(root, textvariable=self.ny_var).grid(row=0, column=1, padx=10, pady=5)
 
         # 创建功能按钮
-        ttk.Button(root, text="获取里番信息", command=self.start_get_info).grid(row=1, column=0, padx=10, pady=5)
-        ttk.Button(root, text="生成NFO和图片", command=self.start_gen_nfo).grid(row=1, column=1, padx=10, pady=5)
-        ttk.Button(root, text="下载里番", command=self.start_download).grid(row=1, column=2, padx=10, pady=5)
-        ttk.Button(root, text="退出", command=root.quit).grid(row=1, column=3, padx=10, pady=5)
+        
+        ttk.Button(root, text="获取里番信息", command=self.start_get_info).grid(row=1, column=0, padx=10, pady=5, sticky="ew")
+        ttk.Button(root, text="生成NFO和图片", command=self.start_gen_nfo).grid(row=1, column=1, padx=10, pady=5, sticky="ew")
+        ttk.Button(root, text="下载里番", command=self.start_download).grid(row=1, column=2, padx=10, pady=5, sticky="ew")
+        ttk.Button(root, text="退出", command=root.quit).grid(row=1, column=3, padx=10, pady=5, sticky="ew")
 
         # 创建输出文本框
         self.output_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=100, height=30)
