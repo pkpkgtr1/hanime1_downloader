@@ -8,7 +8,7 @@ from tqdm import tqdm
 import time
 import re
 
-def download_file(lf_id,NY,url, filename=None):
+def download_file(lf_id,NY,url, timeout=30, filename=None):
     """
     下载文件并显示进度条
     :param url: 文件的URL地址
@@ -16,7 +16,7 @@ def download_file(lf_id,NY,url, filename=None):
     """
     try:
         # 发送HTTP GET请求
-        response = requests.get(url, stream=True)
+        response = requests.get(url, timeout=timeout, stream=True)
         response.raise_for_status()  # 如果响应状态码不是2xx，会抛出异常
         
         # 获取文件总大小
